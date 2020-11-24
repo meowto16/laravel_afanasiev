@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\User;
+use Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\BlogPost
@@ -18,12 +22,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $content_html
  * @property int $is_published
  * @property string|null $published_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $deleted_at
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost newQuery()
- * @method static \Illuminate\Database\Query\Builder|BlogPost onlyTrashed()
+ * @method static Builder|BlogPost onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost query()
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereContentHtml($value)
@@ -38,9 +42,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BlogPost whereUserId($value)
- * @method static \Illuminate\Database\Query\Builder|BlogPost withTrashed()
- * @method static \Illuminate\Database\Query\Builder|BlogPost withoutTrashed()
- * @mixin \Eloquent
+ * @method static Builder|BlogPost withTrashed()
+ * @method static Builder|BlogPost withoutTrashed()
+ * @mixin Eloquent
  */
 class BlogPost extends Model
 {
@@ -49,4 +53,16 @@ class BlogPost extends Model
     public $timestamps = true;
 
     protected $visible = ['created_at', 'updated_at', 'deleted_at'];
+
+    public function category()
+    {
+        // Статья принадлежит категории
+        return $this->belongsTo(BlogCategory::class);
+    }
+
+    public function user()
+    {
+        // Статья принадлежит пользователю
+        return $this->belongsTo(User::class);
+    }
 }
