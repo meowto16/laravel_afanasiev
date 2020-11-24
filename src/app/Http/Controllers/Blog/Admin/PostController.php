@@ -41,7 +41,9 @@ class PostController extends BaseController
      */
     public function index()
     {
-        return view('blog.admin.posts.index');
+        $paginator = $this->blogPostRepository->getAllWithPaginate();
+
+        return view('blog.admin.posts.index', compact('paginator'));
     }
 
     /**
@@ -51,7 +53,7 @@ class PostController extends BaseController
      */
     public function create()
     {
-        return null;
+        dd(__METHOD__);
     }
 
     /**
@@ -66,17 +68,6 @@ class PostController extends BaseController
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        return null;
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -84,7 +75,7 @@ class PostController extends BaseController
      */
     public function edit($id)
     {
-        return null;
+        dd(__METHOD__, $id);
     }
 
     /**
@@ -96,7 +87,7 @@ class PostController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        return null;
+        dd(__METHOD__, $id);
     }
 
     /**
@@ -107,6 +98,6 @@ class PostController extends BaseController
      */
     public function destroy($id)
     {
-        return null;
+        dd(__METHOD__, $id);
     }
 }
