@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\BlogCategory
@@ -13,21 +16,21 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $slug
  * @property string $title
  * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory query()
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BlogCategory whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static Builder|BlogCategory newModelQuery()
+ * @method static Builder|BlogCategory newQuery()
+ * @method static Builder|BlogCategory query()
+ * @method static Builder|BlogCategory whereCreatedAt($value)
+ * @method static Builder|BlogCategory whereDeletedAt($value)
+ * @method static Builder|BlogCategory whereDescription($value)
+ * @method static Builder|BlogCategory whereId($value)
+ * @method static Builder|BlogCategory whereParentId($value)
+ * @method static Builder|BlogCategory whereSlug($value)
+ * @method static Builder|BlogCategory whereTitle($value)
+ * @method static Builder|BlogCategory whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class BlogCategory extends Model
 {
@@ -39,4 +42,9 @@ class BlogCategory extends Model
         'parent_id',
         'description'
     ];
+
+    public function post()
+    {
+        return $this->hasMany(BlogPost::class);
+    }
 }

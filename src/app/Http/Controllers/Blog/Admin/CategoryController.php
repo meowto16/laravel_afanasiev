@@ -6,6 +6,11 @@ use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
 use App\Repositories\BlogCategoryRepository;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class CategoryController extends BaseController
 {
@@ -24,7 +29,7 @@ class CategoryController extends BaseController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     * @return Factory|Application|View
      */
     public function index()
     {
@@ -37,7 +42,7 @@ class CategoryController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|Application|Response|View
      */
     public function create()
     {
@@ -53,7 +58,8 @@ class CategoryController extends BaseController
     /**
      * Store a newly created resource in storage.
      *
-     * @param App\Http\Requests\BlogCategoryCreateRequest; $request
+     * @param BlogCategoryCreateRequest; $request
+     * @return RedirectResponse
      */
     public function store(BlogCategoryCreateRequest $request)
     {
@@ -82,7 +88,7 @@ class CategoryController extends BaseController
      *
      * @param int $id
      * @param BlogCategoryRepository $categoryRepository
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application|\Illuminate\View\View
+     * @return Factory|Application|View
      */
     public function edit($id, BlogCategoryRepository $categoryRepository)
     {
@@ -99,9 +105,9 @@ class CategoryController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\BlogCategoryUpdateRequest $request
+     * @param BlogCategoryUpdateRequest $request
      * @param int $id
-
+     * @return RedirectResponse
      */
     public function update(BlogCategoryUpdateRequest $request, $id)
     {

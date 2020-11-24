@@ -39,6 +39,17 @@ class BlogPostRepository extends CoreRepository
         $result = $this->startConditions()
             ->select($columns)
             ->orderBy('id', 'DESC')
+            // Заберет все поля из базы
+            // Если не делать with - получишь кучу запросов к БД
+//            ->with(['category', 'user'])
+            ->with([
+                // можно так
+                'category' => function($query) {
+                    $query->select(['id', 'title']);
+                },
+                // или так
+                'user:id,name'
+            ])
             ->paginate($paginateCount);
 
         return $result;
