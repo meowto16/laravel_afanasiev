@@ -51,6 +51,17 @@ class BlogPost extends Model
 
     public $timestamps = true;
 
+    protected $fillable = [
+        'title',
+        'slug',
+        'category_id',
+        'excerpt',
+        'content_raw',
+        'is_published',
+        'published_at',
+        'user_id'
+    ];
+
     protected $visible = ['created_at', 'updated_at', 'deleted_at'];
 
     public function category()
