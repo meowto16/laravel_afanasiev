@@ -65,7 +65,7 @@
                                 type="checkbox"
                                 name="is_published"
                                 class="form-check-input"
-                                value="{{ $item->is_published }}"
+                                value="1"
                                 @if($item->is_published)
                                 checked="checked"
                                 @endif
