@@ -2,6 +2,8 @@
 
 namespace App\Observers;
 
+use Illuminate\Support\Str;
+
 use App\Models\BlogCategory;
 
 class BlogCategoryObserver
@@ -59,5 +61,22 @@ class BlogCategoryObserver
     public function forceDeleted(BlogCategory $blogCategory)
     {
         //
+    }
+
+    public function creating(BlogCategory $blogCategory)
+    {
+        $this->setSlug($blogCategory);
+    }
+
+    public function updating(BlogCategory $blogCategory)
+    {
+        $this->setSlug($blogCategory);
+    }
+
+    protected function setSlug(BlogCategory $blogCategory)
+    {
+       if (empty($blogCategory->slug)) {
+            $blogCategory->slug = Str::slug($blogCategory->title);
+        }
     }
 }
