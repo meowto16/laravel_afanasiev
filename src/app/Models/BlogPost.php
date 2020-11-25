@@ -58,8 +58,7 @@ class BlogPost extends Model
         'excerpt',
         'content_raw',
         'is_published',
-        'published_at',
-        'user_id'
+        'published_at'
     ];
 
     protected $visible = ['created_at', 'updated_at', 'deleted_at'];

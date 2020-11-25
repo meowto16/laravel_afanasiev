@@ -4,7 +4,7 @@
     @php
         /** @var App\Models\BlogPost $item */
         $editAction = $item->exists ? route('blog.admin.posts.update', $item->id) : route('blog.admin.posts.store');
-        $editMethod = $item->exists ? 'PATCH' : 'PUT';
+        $editMethod = $item->exists ? 'PATCH' : 'POST';
     @endphp
     <div class="container">
         @include ('blog.admin.posts.includes.result_messages')

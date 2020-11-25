@@ -14,8 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 })->name('main');
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['namespace' => 'Blog', 'prefix' => 'blog'], function () {
    Route::resource('posts', 'PostController')->names('blog.posts');
@@ -38,17 +36,6 @@ Route::group($groupData, function() {
         ->except(['show'])
         ->names('blog.admin.posts');
 });
-
-
-
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 

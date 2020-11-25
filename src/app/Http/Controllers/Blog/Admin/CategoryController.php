@@ -64,12 +64,6 @@ class CategoryController extends BaseController
     public function store(BlogCategoryCreateRequest $request)
     {
         $data = $request->input();
-        /**
-         * Ушло в обсервер
-         */
-//        if (empty($data['slug'])) {
-//            $data['slug'] = str_slug($data['title']);
-//        }
 
         // Создаст объект но не добавит в БД
         $item = (new BlogCategory($data))->create($data);
@@ -114,28 +108,7 @@ class CategoryController extends BaseController
      */
     public function update(BlogCategoryUpdateRequest $request, $id)
     {
-//        $rules = [
-//            'title' => 'required|min:5|max:200',
-//            'slug' => 'max:200',
-//            'description' => 'string|max:500|min:3',
-//            'parent_id' => 'required|integer|exists:blog_categories,id',
-//        ];
-
-//        $validatedData = $request->validate($rules);
-
-//        dd($validatedData);
-
-//        $validator = \Validator::make($request->all(), $rules);
-//        $validatedData[] = $validator->passes();
-//        $validatedData[] = $validator->validate();
-//        $validatedData[] = $validator->valid();
-//        $validatedData[] = $validator->failed();
-//        $validatedData[] = $validator->errors();
-//        $validatedData[] = $validator->fails();
-//
-//        dd($validatedData);
-
-        $item = BlogCategory::find($id);
+        $item = $this->blogCategoryRepository->getEdit($id);
 
         if (empty($item)) {
             return back()
