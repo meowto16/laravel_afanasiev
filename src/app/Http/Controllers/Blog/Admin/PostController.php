@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
+use App\Models\BlogPost;
+use App\Http\Requests\BlogPostCreateRequest;
 use App\Http\Requests\BlogPostUpdateRequest;
 use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
@@ -55,22 +57,38 @@ class PostController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return View
      */
     public function create()
     {
-        dd(__METHOD__);
+        $item = new BlogPost();
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
+
+        return view('blog.admin.posts.edit', compact('item', 'categoryList'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
-     * @return Response
+     * @param BlogPostCreateRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(BlogPostCreateRequest $request)
     {
-        return null;
+        $data = $request->input();
+
+        $item = (new BlogPost($data))->create($data);
+        $item->save();
+
+        if ($item) {
+            return redirect()
+                ->route('blog.admin.categories.edit', [$item->id])
+                ->with(['success' => 'Успешно сохранено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Ошибка сохранения'])
+                ->withInput();
+        }
     }
 
     /**
@@ -92,9 +110,9 @@ class PostController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param  int  $id
-     * @return \Illuminate\Http\RedirectResponse
+     * @param BlogPostUpdateRequest $request
+     * @param int $id
+     * @return RedirectResponse
      */
     public function update(BlogPostUpdateRequest $request, $id)
     {
