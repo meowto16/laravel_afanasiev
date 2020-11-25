@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 
+use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
 
 
@@ -25,6 +24,11 @@ class PostController extends BaseController
     private $blogPostRepository;
 
     /**
+     * @var BlogCategoryRepository
+     */
+    private $blogCategoryRepository;
+
+    /**
      * PostController constructor.
      */
     public function __construct()
@@ -32,12 +36,13 @@ class PostController extends BaseController
         parent::__construct();
 
         $this->blogPostRepository = app(BlogPostRepository::class);
+        $this->blogCategoryRepository = app(BlogCategoryRepository::class);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return Factory|Application|View
+     * @return View
      */
     public function index()
     {
@@ -71,11 +76,16 @@ class PostController extends BaseController
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return View
      */
     public function edit($id)
     {
-        dd(__METHOD__, $id);
+        $item = $this->blogPostRepository->getEdit($id);
+        abort_if(empty($item), 404);
+
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
+
+        return view('blog.admin.posts.edit', compact('item', 'categoryList'));
     }
 
     /**
