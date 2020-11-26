@@ -2,67 +2,21 @@
 
 namespace App\Observers;
 
+use Michelf\Markdown;
+
 use App\Models\BlogPost;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class BlogPostObserver
 {
-    /**
-     * Handle the blog post "created" event.
-     *
-     * @param  \App\Models\BlogPost  $blogPost
-     * @return void
-     */
-    public function created(BlogPost $blogPost)
+    public function creating(BlogPost $blogPost)
     {
-        //
+        $this->setPublishedAt($blogPost);
+        $this->setSlug($blogPost);
+        $this->setHtml($blogPost);
+        $this->setUser($blogPost);
     }
-
-    /**
-     * Handle the blog post "updated" event.
-     *
-     * @param  \App\Models\BlogPost  $blogPost
-     * @return void
-     */
-    public function updated(BlogPost $blogPost)
-    {
-        //
-    }
-
-    /**
-     * Handle the blog post "deleted" event.
-     *
-     * @param  \App\Models\BlogPost  $blogPost
-     * @return void
-     */
-    public function deleted(BlogPost $blogPost)
-    {
-        //
-    }
-
-    /**
-     * Handle the blog post "restored" event.
-     *
-     * @param  \App\Models\BlogPost  $blogPost
-     * @return void
-     */
-    public function restored(BlogPost $blogPost)
-    {
-        //
-    }
-
-    /**
-     * Handle the blog post "force deleted" event.
-     *
-     * @param  \App\Models\BlogPost  $blogPost
-     * @return void
-     */
-    public function forceDeleted(BlogPost $blogPost)
-    {
-        //
-    }
-
 
     /**
      * Обработка ПЕРЕД обновлением записи
@@ -80,8 +34,9 @@ class BlogPostObserver
 //        dd($test);
 
         $this->setPublishedAt($blogPost);
-
         $this->setSlug($blogPost);
+        $this->setHtml($blogPost);
+        $this->setUser($blogPost);
     }
 
     /**
@@ -102,5 +57,27 @@ class BlogPostObserver
         if (empty($blogPost->slug)) {
             $blogPost->slug = Str::slug($blogPost->title);
         }
+    }
+
+    /**
+     * Установка значения полю content_html относительно поля content_raw
+     *
+     * @param BlogPost $blogPost
+     */
+    protected function setHtml(BlogPost $blogPost)
+    {
+        if ($blogPost->isDirty('content_raw')) {
+            $blogPost->content_html = Markdown::defaultTransform($blogPost->content_raw);
+        }
+    }
+
+    /**
+     * Если не указан user_id, то устанавливаем пользователя по-умолчанию
+     *
+     * @param BlogPost $blogPost
+     */
+    protected function setUser(BlogPost $blogPost)
+    {
+        $blogPost->user_id = auth()->id() ?? BlogPost::UNKNOWN_USER;
     }
 }

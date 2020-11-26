@@ -49,7 +49,7 @@ class BlogPost extends Model
 {
     use SoftDeletes;
 
-    public $timestamps = true;
+    const UNKNOWN_USER = 1;
 
     protected $fillable = [
         'title',
