@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
-use Illuminate\View\View;
-
-use App\Models\BlogPost;
 use App\Http\Requests\BlogPostCreateRequest;
 use App\Http\Requests\BlogPostUpdateRequest;
+use App\Models\BlogPost;
 use App\Repositories\BlogCategoryRepository;
 use App\Repositories\BlogPostRepository;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 
 /**
@@ -126,17 +124,6 @@ class PostController extends BaseController
 
         $data = $request->all();
 
-        /*
-         *  Ушло в обсервер
-         */
-//        if (empty($data['slug'])) {
-//            $data['slug'] = Str::slug($data['title']);
-//        }
-//
-//        if (empty($item->published_at) && $data['is_published']) {
-//            $data['published_at'] = Carbon::now();
-//        }
-
         $result = $item->update($data);
 
         if ($result) {
@@ -154,10 +141,44 @@ class PostController extends BaseController
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return RedirectResponse
      */
     public function destroy($id)
     {
-        dd(__METHOD__, $id);
+        // софт-удаление, в бд остается.
+        $result = BlogPost::destroy($id);
+
+        // полное удаление из бд
+        // $result = BlogPost::find($id)->forceDelete();
+
+        if ($result) {
+            return redirect()
+                ->route('blog.admin.posts.index')
+                ->with(
+                    ['success' => "Запись id[$id] удалена", 'restore' => route('blog.admin.posts.restore', $id)]
+                );
+        } else {
+            return back()->withErrors(['msg' => 'Ошибка удаления']);
+        }
+    }
+
+    /**
+     * Восстанавливает удаленную запись
+     *
+     * @param $id
+     */
+    public function restore($id)
+    {
+        $item = BlogPost::onlyTrashed()->find($id)->restore();
+
+        if ($item) {
+            return redirect()
+                ->route('blog.admin.posts.index')
+                ->with(
+                    ['success' => "Запись id[$id] успешно восстановлена!"]
+                );
+        } else {
+            return back()->withErrors(['msg' => 'Ошибка восстановления']);
+        }
     }
 }
