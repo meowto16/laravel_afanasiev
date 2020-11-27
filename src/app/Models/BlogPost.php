@@ -61,7 +61,7 @@ class BlogPost extends Model
         'published_at'
     ];
 
-    protected $visible = ['created_at', 'updated_at', 'deleted_at'];
+//    protected $visible = ['created_at', 'updated_at', 'deleted_at'];
 
     public function category()
     {
