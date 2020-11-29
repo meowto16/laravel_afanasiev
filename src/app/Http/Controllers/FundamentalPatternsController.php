@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\DesignPatterns\Fundamental\Delegation\AppMessenger;
+use App\DesignPatterns\Fundamental\EventChannel\EventChannelJob;
 use App\DesignPatterns\Fundamental\PropertyContainer\BlogPost;
 
 class FundamentalPatternsController extends Controller
 {
     /**
-     * Контейнер свойств (англ. property container)
+     * Демонстрация шаблона проектирования "Контейнер свойств (англ. property container)
      *
-     * @url http://127.0.0.1:8000/fundamentals/property-container
+     * @url http://localhost:8100/fundamentals/property-container
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Exception
@@ -36,6 +37,12 @@ class FundamentalPatternsController extends Controller
         dd(compact('name', 'item'));
     }
 
+    /**
+     * Демонстрация шаблона проектирования - "Делегирование"
+     *
+     * @url http://localhost:8100/fundamentals/delegation
+     *
+     */
     public function Delegation()
     {
         $name = 'Делегирование (Delegation)';
@@ -54,6 +61,21 @@ class FundamentalPatternsController extends Controller
             ->send();
 
         \DebugBar::info($appMessenger);
+
+        return view('welcome');
+    }
+
+    /**
+     * Демонстрация шаблона проектирования - "Канал событий (Event Channel)"
+     *
+     * @url http://localhost:8100/fundamentals/event-channel
+     */
+    public function EventChannel()
+    {
+        $name = 'Канал событий (event channel)';
+
+        $item = new EventChannelJob();
+        $item->run();
 
         return view('welcome');
     }

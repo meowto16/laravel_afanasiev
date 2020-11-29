@@ -50,4 +50,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['prefix' => 'fundamentals'], function() {
    Route::get('property-container', 'FundamentalPatternsController@PropertyContainer');
    Route::get('delegation', 'FundamentalPatternsController@Delegation');
+   Route::get('event-channel', 'FundamentalPatternsController@EventChannel');
 });
