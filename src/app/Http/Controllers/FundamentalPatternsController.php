@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DesignPatterns\Fundamental\Delegation\AppMessenger;
 use App\DesignPatterns\Fundamental\PropertyContainer\BlogPost;
 
 class FundamentalPatternsController extends Controller
@@ -33,5 +34,27 @@ class FundamentalPatternsController extends Controller
         $item->deleteProperty('read_only');
 
         dd(compact('name', 'item'));
+    }
+
+    public function Delegation()
+    {
+        $name = 'Делегирование (Delegation)';
+
+        $appMessenger = new AppMessenger();
+
+        $appMessenger->setSender('sender@email.net')
+            ->setRecipient('recipient@email.net')
+            ->setMessage('Hello email messenger!')
+            ->send();
+
+        $appMessenger->toSms()
+            ->setSender('11111111')
+            ->setRecipient('2222222222')
+            ->setMessage('Hello SMS messenger!')
+            ->send();
+
+        \DebugBar::info($appMessenger);
+
+        return view('welcome');
     }
 }
