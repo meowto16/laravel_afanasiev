@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DesignPatterns\Creational\AbstractFactory\GuiKitFactory;
+use App\DesignPatterns\Creational\FactoryMethod\Classes\Forms\BootstrapDialogForm;
+use App\DesignPatterns\Creational\FactoryMethod\Classes\Forms\SemanticUiDialogForm;
 
 class CreationalPatternsController extends Controller
 {
@@ -30,6 +32,19 @@ class CreationalPatternsController extends Controller
 
         $result[] = $this->guiKit->buildButton()->setColor('white')->draw();
         $result[] = $this->guiKit->buildCheckbox()->toggle()->draw();
+
+        \Debugbar::info($result);
+
+        return view('welcome');
+    }
+
+    public function FactoryMethod()
+    {
+//        $name = 'Фабричный метод';
+
+//        $dialogForm = new BootstrapDialogForm();
+        $dialogForm = new SemanticUiDialogForm();
+        $result = $dialogForm->render();
 
         \Debugbar::info($result);
 
