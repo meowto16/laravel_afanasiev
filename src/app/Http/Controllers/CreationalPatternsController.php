@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\DesignPatterns\Creational\AbstractFactory\GuiKitFactory;
 use App\DesignPatterns\Creational\FactoryMethod\Classes\Forms\BootstrapDialogForm;
 use App\DesignPatterns\Creational\FactoryMethod\Classes\Forms\SemanticUiDialogForm;
+use App\DesignPatterns\Creational\SimpleFactory\MessengerSimpleFactory;
+
+use App\DesignPatterns\Creational\StaticFactory\StaticFactory;
 
 class CreationalPatternsController extends Controller
 {
@@ -57,6 +60,20 @@ class CreationalPatternsController extends Controller
 
         $appMailMessenger = StaticFactory::build('email');
         $appPhoneMessenger = StaticFactory::build('sms');
+
+        \Debugbar::info($appMailMessenger, $appPhoneMessenger);
+
+        return view('welcome');
+    }
+
+    public function SimpleFactory()
+    {
+//        $name = 'Простая фабрика';
+
+        $factory = new MessengerSimpleFactory();
+
+        $appMailMessenger = $factory->build('email');
+        $appPhoneMessenger = $factory->build('sms');
 
         \Debugbar::info($appMailMessenger, $appPhoneMessenger);
 
