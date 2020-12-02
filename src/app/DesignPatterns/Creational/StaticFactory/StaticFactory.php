@@ -38,5 +38,7 @@ class StaticFactory implements MessengerStaticFactoryInterface
         $messenger
             ->setSender($sender)
             ->setMessage('default message');
+
+        return $messenger;
     }
 }
