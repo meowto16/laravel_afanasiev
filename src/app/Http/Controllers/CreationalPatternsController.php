@@ -50,4 +50,16 @@ class CreationalPatternsController extends Controller
 
         return view('welcome');
     }
+
+    public function StaticFactory()
+    {
+//        $name = 'Статическая фабрика';
+
+        $appMailMessenger = StaticFactory::build('email');
+        $appPhoneMessenger = StaticFactory::build('sms');
+
+        \Debugbar::info($appMailMessenger, $appPhoneMessenger);
+
+        return view('welcome');
+    }
 }
