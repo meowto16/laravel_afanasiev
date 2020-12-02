@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\DesignPatterns\Creational\Singleton\Contracts\AnotherConnection;
+use App\DesignPatterns\Creational\Singleton\LaravelSingleton;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Schema;
@@ -13,6 +15,10 @@ use App\Observers\BlogPostObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public $singletons = [
+      AnotherConnection::class => LaravelSingleton::class,
+    ];
+
     /**
      * Bootstrap any application services.
      *

@@ -59,4 +59,5 @@ Route::group(['prefix' => 'creational'], function() {
     Route::get('factory-method', 'CreationalPatternsController@FactoryMethod');
     Route::get('static-factory', 'CreationalPatternsController@StaticFactory');
     Route::get('simple-factory', 'CreationalPatternsController@SimpleFactory');
+    Route::get('singleton', 'CreationalPatternsController@Singleton');
 });
