@@ -61,3 +61,7 @@ Route::group(['prefix' => 'creational'], function() {
     Route::get('simple-factory', 'CreationalPatternsController@SimpleFactory');
     Route::get('singleton', 'CreationalPatternsController@Singleton');
 });
+Route::group(['prefix' => 'behavioral'], function() {
+    Route::get('strategy', 'BehavioralPatternsController@Strategy');
+});
+

@@ -41,4 +41,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(BlogPost::class);
     }
+
+    public function departmentName()
+    {
+        $departments = [
+            'florist',
+            'logist',
+            'courierHiking',
+            'courierAuto',
+            'courierAutoNight',
+        ];
+
+        $key = array_rand($departments);
+
+        return $departments[$key];
+    }
 }
