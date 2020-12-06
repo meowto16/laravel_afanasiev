@@ -46,7 +46,7 @@ class CategoryController extends BaseController
      */
     public function create()
     {
-        $item = new BlogCategory();
+        $item = BlogCategory::make();
         $categoryList = $this->blogCategoryRepository->getForComboBox();
 
         return view(
@@ -64,10 +64,8 @@ class CategoryController extends BaseController
     public function store(BlogCategoryCreateRequest $request)
     {
         $data = $request->input();
-
         // Создаст объект но не добавит в БД
-        $item = (new BlogCategory($data))->create($data);
-        $item->save();
+        $item = BlogCategory::create($data);
 
         if ($item) {
             return redirect()
@@ -90,21 +88,6 @@ class CategoryController extends BaseController
     public function edit($id, BlogCategoryRepository $categoryRepository)
     {
           $item = $categoryRepository->getEdit($id);
-
-//          $v['title_before'] = $item->title;
-//
-//          $item->title = 'Asdasdsadsadsadsa 1231';
-//
-//          $v['title_after'] = $item->title;
-//          $v['getAttribute'] = $item->getAttribute('title');
-//          $v['attributesToArray'] = $item->attributesToArray();
-//          $v['attributes'] = $item->attributes['title'];
-//          $v['getAttributeValue'] = $item->getAttribute('title');
-//          $v['getMutatedAttributes'] = $item->getMutatedAttributes();
-//          $v['hasGetMutator for title'] = $item->hasGetMutator('title');
-//          $v['toArray'] = $item->toArray();
-
-//          dd($v, $item);
 
           if (empty($item)) {
               abort(404);
