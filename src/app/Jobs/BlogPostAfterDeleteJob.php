@@ -16,16 +16,16 @@ class BlogPostAfterDeleteJob implements ShouldQueue
     /**
      * @var BlogPost
      */
-    private $blogPost;
+    private $id;
 
     /**
      * Create a new job instance.
      *
      * @param BlogPost $blogPost
      */
-    public function __construct(BlogPost $blogPost)
+    public function __construct($id)
     {
-        $this->blogPost = $blogPost;
+        $this->id = $id;
     }
 
     /**
@@ -35,6 +35,6 @@ class BlogPostAfterDeleteJob implements ShouldQueue
      */
     public function handle()
     {
-        logs()->warning("Удалена запись в блоге [{$this->blogPostId}]");
+        logs()->warning("Удалена запись в блоге [{$this->id}]");
     }
 }
