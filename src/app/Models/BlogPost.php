@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Eloquent;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder;
@@ -47,6 +48,7 @@ use Illuminate\Support\Carbon;
  */
 class BlogPost extends Model
 {
+    use HasFactory;
     use SoftDeletes;
 
     const UNKNOWN_USER = 1;
